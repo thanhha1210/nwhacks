@@ -5,7 +5,8 @@ const PdfDetailsSchema = new mongoose.Schema(
     {
         pdf: { type: String, required: true },
         title: { type: String, required: true },
-        tags: {type: [String], required: false}
+        tags: {type: [String], required: true},
+        comments: {type: [String], required: true}
     },
     { collection: "PdfDetails" }
 );

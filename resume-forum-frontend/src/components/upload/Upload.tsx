@@ -4,10 +4,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router"; // Import useNavigate
 import { uploadFile } from "../../services/use-file";
 
+interface Data {
+    title: string;
+    file: File | null;
+    tags: string[];
+    comments: string[];
+}
 const Upload = () => {
-    const [title, setTitle] = useState("");
-    const [tags, setTags] = useState<string[]>([]); 
-    const [file, setFile] = useState<File | null>(null);
+    const [data, setData] = useState<Data>({title: "", file: null, tags: [], comments: []});
+ 
     const [inputTag, setInputTag] = useState(""); 
     const [suggestions, setSuggestions] = useState<string[]>([]); 
     const navigate = useNavigate(); 
@@ -27,30 +32,30 @@ const Upload = () => {
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!file) {
-            alert("Please upload a file");
+        if (!data.file || !data.tags || !data.title.trim()) {
+            alert("Please enter all the fields");
             return;
         }
 
         const formData = new FormData();
-        formData.append("title", title);
-        formData.append("file", file);
-        formData.append("tag", tags.join(", ")); 
+        formData.append("title", data.title);
+        formData.append("file", data.file);
+        formData.append("tags", data.tags.join(", ")); 
+        formData.append("comments", JSON.stringify(data.comments));
+
         try {
             await uploadFile(formData);
             alert("File uploaded successfully");
             navigate("/home"); 
-        } catch (error) {
+        } 
+        catch (error) {
             alert("Failed to upload file");
         }
     };
 
-    // Handle tag input change and filtering suggestions
     const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setInputTag(value);
-
-        // Filter tags that match the input
         const filteredSuggestions = availableTags.filter(tag => 
             tag.toLowerCase().includes(value.toLowerCase())
         );
@@ -59,16 +64,16 @@ const Upload = () => {
 
     // Add selected tag to the tags list
     const handleTagSelect = (tag: string) => {
-        if (!tags.includes(tag)) {
-            setTags([...tags, tag]);
+        if (!data.tags.includes(tag) && availableTags.includes(tag)) {
+            setData({...data, tags: [...data.tags, tag]});
         }
-        setInputTag(""); // Clear the input field after selection
-        setSuggestions([]); // Clear the suggestions
+        setInputTag(""); 
+        setSuggestions([]);
     };
 
     // Remove tag from the tags list
     const handleTagRemove = (tag: string) => {
-        setTags(tags.filter(t => t !== tag));
+        setData({...data, tags: data.tags.filter(t => t != tag)});
     };
 
     return (
@@ -94,8 +99,8 @@ const Upload = () => {
                             type="text"
                             className="form-control w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-300 transition-colors"
                             placeholder="Enter your resume title"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
+                            value={data.title}
+                            onChange={(e) => setData({...data, title: e.target.value})}
                             required
                         />
                     </div>
@@ -125,7 +130,7 @@ const Upload = () => {
                         <div className="mt-2">
                             <p>Selected Tags: </p>
                             <div className="flex flex-wrap gap-2">
-                                {tags.map((tag, index) => (
+                                {data.tags.map((tag, index) => (
                                     <span
                                         key={index}
                                         className="bg-gray-200 text-blue-800 px-4 py-1 rounded-full flex items-center gap-2"
@@ -150,7 +155,7 @@ const Upload = () => {
                             type="file"
                             className="form-control w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-300 transition-colors"
                             accept="application/pdf"
-                            onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+                            onChange={(e) => setData({...data, file: e.target.files ? e.target.files[0] : null})}
                             required
                         />
                     </div>

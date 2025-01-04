@@ -44,12 +44,13 @@ app.post("/api/files/upload", upload.single("file"), async (req, res) => {
       return;
     }
 
+    // Tags will be passed as a comma-separated string, so split it to convert it into an array
     const tagsArray = req.body.tags ? req.body.tags.split(",") : [];
 
     const newPdf = await PdfDetails.create({
       title: req.body.title,
       pdf: req.file.filename,
-      tags: tagsArray
+      tags: tagsArray, // Store the tags as an array
     });
 
     res.status(201).json({ message: "File uploaded successfully", data: newPdf });
@@ -64,8 +65,53 @@ app.get("/api/files", async (req, res) => {
   try {
     const files = await PdfDetails.find();
     res.status(200).json({ status: "ok", data: files });
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Error fetching files:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Get a file based on File ID
+app.get("/api/files/:fileId", async (req, res) => {
+  try {
+    const { fileId } = req.params; // Get the fileId from URL parameters
+    const file = await PdfDetails.findById(fileId); // Find the file by its ID
+
+    if (!file) {
+      return res.status(404).json({ message: "File not found in DB" });
+    }
+
+    res.status(200).json({ status: "ok", data: file });
+  } 
+  catch (error) {
+    console.error("Error fetching file:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+// Add Comment Api (with the fileId in the URL path)
+app.put("/api/files/:fileId/comment", async (req, res) => {
+  try {
+    const { fileId } = req.params; // Get fileId from URL
+    const { comment } = req.body; // Get comment from the request body
+
+    // Find the file by fileId and update its comments array
+    const updatedFile = await PdfDetails.findByIdAndUpdate(
+      fileId,
+      { $push: { comments: comment } }, // $push adds the new comment to the comments array
+      { new: true } // This option returns the updated document
+    );
+
+    if (!updatedFile) {
+      return res.status(404).json({ message: "File not found." });
+    }
+
+    res.status(200).json({ message: "Comment added successfully", data: updatedFile });
+  } 
+  catch (error) {
+    console.error("Error adding comment to file:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
