@@ -13,8 +13,10 @@
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
     "axios": "^1.7.9",
+    "pdfjs-dist": "^4.10.38",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-pdf": "^9.2.1",
     "react-router": "^7.1.1",
     "resume-forum": "file:",
     "router": "^2.0.0"

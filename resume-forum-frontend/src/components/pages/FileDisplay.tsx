@@ -14,9 +14,9 @@ interface FileDisplayProps {
 
 const FileDisplay: React.FC<FileDisplayProps> = ({ files }) => {
     return (
-        <div className="flex flex-wrap justify-center gap-6">
+        <div className="flex flex-wrap justify-center gap-8 bg-green-50 p-8">
             {files.length === 0 ? (
-                <p>No files uploaded yet.</p>
+                <p className="text-gray-500">No files uploaded yet.</p>
             ) : (
                 files.map((file) => (
                     <div
@@ -25,13 +25,13 @@ const FileDisplay: React.FC<FileDisplayProps> = ({ files }) => {
                     >
                         <h3 className="text-xl font-semibold text-gray-800">{file.title}</h3>
                         <div className="mt-4">
-                            {/* Embed PDF preview */}
+                            {/* Embed only the first page of the PDF */}
                             <object
                                 data={`http://localhost:5000/uploads/${file.pdf}#page=1`}
                                 type="application/pdf"
                                 width="100%"
                                 height="300px"
-                                className="rounded-md"
+                                className="rounded-md overflow-hidden"
                             >
                                 <p>Your browser does not support PDF viewing. You can <a href={`http://localhost:5000/uploads/${file.pdf}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">download the PDF</a> to view it.</p>
                             </object>

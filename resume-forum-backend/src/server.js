@@ -44,9 +44,12 @@ app.post("/api/files/upload", upload.single("file"), async (req, res) => {
       return;
     }
 
+    const tagsArray = req.body.tags ? req.body.tags.split(",") : [];
+
     const newPdf = await PdfDetails.create({
       title: req.body.title,
       pdf: req.file.filename,
+      tags: tagsArray
     });
 
     res.status(201).json({ message: "File uploaded successfully", data: newPdf });
