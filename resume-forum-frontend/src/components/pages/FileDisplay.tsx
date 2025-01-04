@@ -43,17 +43,17 @@ const FileDisplay: React.FC<FileDisplayProps> = ({ files }) => {
             <div className="mt-4">
               {/* Embed only the first page of the PDF */}
               <object
-                data={`http://localhost:5000/uploads/${file.pdf}#page=1`}
+                data={`http://localhost:8080/uploads/${file.pdf}#page=1`}
                 type="application/pdf"
                 width="100%"
                 height="300px"
                 className="rounded-md overflow-hidden"
               >
-                <p>Your browser does not support PDF viewing. You can <a href={`http://localhost:5000/uploads/${file.pdf}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">download the PDF</a> to view it.</p>
+                <p>Your browser does not support PDF viewing. You can <a href={`http://localhost:8080/uploads/${file.pdf}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">download the PDF</a> to view it.</p>
               </object>
             </div>
             <a
-              href={`http://localhost:5000/uploads/${file.pdf}`}
+              href={`http://localhost:8080/uploads/${file.pdf}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 hover:underline mt-2 block"

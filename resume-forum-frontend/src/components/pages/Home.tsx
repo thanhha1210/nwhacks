@@ -1,20 +1,20 @@
 // src/pages/Home.tsx
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import FileDisplay from "./FileDisplay";
 import Navbar from "../nav/Navbar";
+import { getFiles, File } from "../../services/use-file";
 
 const Home = () => {
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<File[]>([]);
 
   useEffect(() => {
-    const getFiles = async () => {
-      const response = await axios.get("http://localhost:5000/api/files");
-      setFiles(response.data.data);
+    const getAllFiles = async () => {
+      const response = await getFiles();
+      setFiles(response.data);
     };
 
-    getFiles();
+    getAllFiles();
   }, []);
 
   return (
