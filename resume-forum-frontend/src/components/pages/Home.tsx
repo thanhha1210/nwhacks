@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import FileDisplay from "./FileDisplay";
+import Navbar from "../nav/Navbar";
 
 const Home = () => {
   const [files, setFiles] = useState([]);
@@ -18,7 +19,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Uploaded Files</h1>
+      <Navbar />
       <FileDisplay files={files} />
     </div>
   );
