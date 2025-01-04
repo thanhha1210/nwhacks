@@ -1,8 +1,8 @@
 // src/components/FileDetails.tsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import axios from "axios";
-import {File} from "../../services/use-file"
+import { getFileById } from "../../services/use-file"; // Import the getFileById function
+import { File } from "../../services/use-file";
 
 const FileDetails: React.FC = () => {
   const { fileId } = useParams(); // Get fileId from the URL params
@@ -14,8 +14,11 @@ const FileDetails: React.FC = () => {
     // Fetch file details and comments based on fileId
     const fetchFileDetails = async () => {
       try {
-        const response = await axios.get(`/api/files/${fileId}`);
-        setFile(response.data.data); // Set file and comments
+        if (!fileId) {
+          throw new Error("File ID is missing");
+        }
+        const fileData = await getFileById(fileId); // Use the getFileById function
+        setFile(fileData.data); // Set file and comments
         setLoading(false);
       } catch (error) {
         console.error("Error fetching file details:", error);
@@ -56,14 +59,27 @@ const FileDetails: React.FC = () => {
         height="500px"
         className="rounded-md overflow-hidden mt-4"
       >
-        <p>Your browser does not support PDF viewing. You can <a href={`http://localhost:5000/uploads/${file.pdf}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">download the PDF</a> to view it.</p>
+        <p>Your browser does not support PDF viewing. You can{" "}
+          <a
+            href={`http://localhost:5000/uploads/${file.pdf}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline"
+          >
+            download the PDF
+          </a>{" "}
+          to view it.
+        </p>
       </object>
 
       <div className="mt-4">
         <h3 className="text-xl font-semibold text-gray-800">Tags:</h3>
         <div className="mt-2 text-gray-600">
           {file.tags.map((tag, index) => (
-            <span key={index} className="mr-2 inline-block bg-gray-200 px-3 py-1 rounded-full text-sm">
+            <span
+              key={index}
+              className="mr-2 inline-block bg-gray-200 px-3 py-1 rounded-full text-sm"
+            >
               {tag}
             </span>
           ))}
@@ -77,7 +93,9 @@ const FileDetails: React.FC = () => {
         ) : (
           <ul className="mt-2 text-gray-600">
             {file.comments.map((comment, index) => (
-              <li key={index} className="border-b py-2">{comment}</li>
+              <li key={index} className="border-b py-2">
+                {comment}
+              </li>
             ))}
           </ul>
         )}

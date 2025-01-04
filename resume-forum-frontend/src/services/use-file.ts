@@ -32,4 +32,4 @@ const getFileById = async (fileId: string) => {
       console.error("Error fetching file:", error);
     }
   };
-export { uploadFile, getFiles };
+export { uploadFile, getFiles, getFileById };
