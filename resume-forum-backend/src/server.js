@@ -17,10 +17,12 @@ app.use(cors());
 app.use("/uploads", express.static("uploads")); // Serve uploaded files statically
 
 // Connect to MongoDB
-mongoose
-  .connect(mongoURL)
+mongoose.connect(mongoURL)
   .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.error("Error connecting to MongoDB:", err);
+    process.exit(1);
+  });
 
 // Configure Multer
 const storage = multer.diskStorage({
@@ -66,7 +68,7 @@ app.get("/api/files", async (req, res) => {
 });
 
 // Start the server
-const port = 8090;
+const port = 5000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
