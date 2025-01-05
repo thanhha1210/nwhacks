@@ -1,4 +1,3 @@
-// src/components/FileDetails.tsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { getFileById, addComment, File } from "../../services/use-file";
@@ -73,7 +72,7 @@ const FileDetails: React.FC = () => {
       <div className="container mx-auto p-8 bg-green-50 ">
         <h2 className="text-center text-3xl font-semibold text-gray-800 mt-4">{file.title}</h2>
         <object
-          data={`http://localhost:8080/uploads/${file.pdf}`}
+          data={`https://nwhacks.onrender.com/uploads/${file.pdf}`}
           type="application/pdf"
           width="60%"
           height="500px"
@@ -82,7 +81,7 @@ const FileDetails: React.FC = () => {
           <p>
             Your browser does not support PDF viewing. You can{" "}
             <a
-              href={`http://localhost:8080/uploads/${file.pdf}`}
+              href={`https://nwhacks.onrender.com/uploads/${file.pdf}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 hover:underline"

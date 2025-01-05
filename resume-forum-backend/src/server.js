@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -5,9 +6,9 @@ const multer = require("multer");
 const PdfDetails = require("./PdfDetails");
 
 // MongoDB connection URL
-const mongoURL =
-  "mongodb+srv://thanhha201906:k3UkIpaHihb3RHzj@resumeforum.vij7q.mongodb.net/?retryWrites=true&w=majority&appName=ResumeForum";
 
+const mongoURL = process.env.MONGOURL;
+const port = process.env.PORT || 8080;
 // Initialize Express app
 const app = express();
 
@@ -119,7 +120,6 @@ app.put("/api/files/:fileId/comment", async (req, res) => {
 
 
 // Start the server
-const port = 8080;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

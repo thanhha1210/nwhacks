@@ -1,12 +1,11 @@
-import React from "react";
 import { useNavigate } from "react-router";
 import { File } from "../../services/use-file";
 
-interface FileDisplayProps {
+interface Props {
   files: File[];
 }
 
-const FileDisplay: React.FC<FileDisplayProps> = ({ files }) => {
+const FileDisplay = ({ files } : Props) => {
   const navigate = useNavigate();
 
   return (
@@ -42,7 +41,7 @@ const FileDisplay: React.FC<FileDisplayProps> = ({ files }) => {
 
               <div className="mt-4">
                 <object
-                  data={`http://localhost:8080/uploads/${file.pdf}#page=1`}
+                  data={`https://nwhacks.onrender.com/uploads/${file.pdf}#page=1`}
                   type="application/pdf"
                   width="100%"
                   height="300px"
@@ -51,7 +50,7 @@ const FileDisplay: React.FC<FileDisplayProps> = ({ files }) => {
                   <p>
                     Your browser does not support PDF viewing. You can{" "}
                     <a
-                      href={`http://localhost:8080/uploads/${file.pdf}`}
+                      href={`https://nwhacks.onrender.com/uploads/${file.pdf}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 hover:underline"
@@ -63,7 +62,7 @@ const FileDisplay: React.FC<FileDisplayProps> = ({ files }) => {
                 </object>
               </div>
               <a
-                href={`http://localhost:8080/uploads/${file.pdf}`}
+                href={`https://nwhacks.onrender.com/uploads/${file.pdf}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:underline mt-2 block"
