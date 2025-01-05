@@ -43,4 +43,16 @@ const addComment = async (fileId: string, comment: string) => {
     }
 };
 
-export { uploadFile, getFiles, getFileById, addComment };
+const allJobTags = [
+    "Software Engineer", "Data Scientist", "Machine Learning", "Frontend Developer",
+    "Backend Developer", "Full Stack Developer", "Product Manager", "UI/UX Designer", 
+    "DevOps", "AI Specialist", "Database Administrator", "Project Manager", 
+    "Web Developer", "Mobile Developer", "Cloud Engineer", "Cybersecurity Analyst", 
+    "Business Analyst", "Quality Assurance", "Game Developer", "Blockchain Developer", 
+    "Systems Architect", "Network Engineer", "IT Consultant", "HR Specialist", 
+    "SEO Expert", "Marketing Specialist", "Content Writer", "Graphic Designer", 
+    "Database Analyst", "Cloud Architect", "Data Analyst"
+];
+const allTags = ["All tags", ... allJobTags]; 
+
+export { uploadFile, getFiles, getFileById, addComment, allJobTags, allTags };

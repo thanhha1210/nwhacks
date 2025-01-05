@@ -1,8 +1,7 @@
-// src/components/Upload.tsx
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router"; // Import useNavigate
-import { uploadFile } from "../../services/use-file";
+import { uploadFile, allJobTags } from "../../services/use-file";
 
 interface Data {
     title: string;
@@ -18,16 +17,7 @@ const Upload = () => {
     const navigate = useNavigate(); 
 
     // Predefined set of tags
-    const availableTags = [
-        "Software Engineer", "Data Scientist", "Machine Learning", "Frontend Developer",
-        "Backend Developer", "Full Stack Developer", "Product Manager", "UI/UX Designer", 
-        "DevOps", "AI Specialist", "Database Administrator", "Project Manager", 
-        "Web Developer", "Mobile Developer", "Cloud Engineer", "Cybersecurity Analyst", 
-        "Business Analyst", "Quality Assurance", "Game Developer", "Blockchain Developer", 
-        "Systems Architect", "Network Engineer", "IT Consultant", "HR Specialist", 
-        "SEO Expert", "Marketing Specialist", "Content Writer", "Graphic Designer", 
-        "Database Analyst", "Cloud Architect", "Data Analyst"
-    ];
+    const availableTags = allJobTags;
 
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -77,15 +67,16 @@ const Upload = () => {
     };
 
     return (
-        <>
-            <div className="bg-green-50">
+        <>  
+            <nav className="bg-green-100 p-4">
                 <button
-                    onClick={e => navigate("/home")}
-                    className="mt-4 ml-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300"
-                >
-                    Back
-                </button>
-            </div>
+                        onClick={e => navigate("/home")}
+                        className="mt-4 ml-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300"
+                    >
+                        Back
+                    </button>
+            </nav>
+        
             <div className="flex justify-center items-center min-h-screen bg-green-50">
                 <form
                     className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md space-y-6"

@@ -1,58 +1,40 @@
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { useState } from "react";
 
-const DropDown = () => {
-  return (
-    <Menu as="div" className="relative inline-block text-left">
-      <div>
-        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-red px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          Options
-          <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-        </MenuButton>
-      </div>
+interface Props {
+  allTags: string[];
+  onSelectTag: (tag: string) => void;
+}
 
-      <MenuItems
-        className="absolute right-0 z-20 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 overflow-visible"
-      >
-        <div className="py-2">
-          <MenuItem>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-black hover:bg-gray-100"
-            >
-              Account settings
-            </a>
-          </MenuItem>
-          <MenuItem>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            >
-              Support
-            </a>
-          </MenuItem>
-          <MenuItem>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            >
-              License
-            </a>
-          </MenuItem>
-          <form action="#" method="POST">
-            <MenuItem>
-              <button
-                type="submit"
-                className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-              >
-                Sign out
-              </button>
-            </MenuItem>
-          </form>
+const DropDown = ({ allTags, onSelectTag }: Props) => {
+    const [curTag, setCurTag] = useState("All tags");
+    return (
+        <Menu as="div" className="relative inline-block text-left">
+        <div>
+            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-green-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 transition-colors">
+                {curTag}
+            <ChevronDownIcon aria-hidden="true" className="-mr-1 h-5 w-5 text-white" />
+            </MenuButton>
         </div>
-      </MenuItems>
-    </Menu>
-  );
+        <MenuItems className="absolute mt-2 w-56 max-h-64 overflow-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+            {allTags.map((tag, index) => (
+            <MenuItem key={index}>
+                {({ active }) => (
+                <button
+                    className={`${
+                    active ? "bg-green-100" : ""
+                    } block w-full px-4 py-2 text-left text-sm text-gray-700`}
+                    onClick={() => {onSelectTag(tag); setCurTag(tag);}}
+                >
+                    {tag}
+                </button>
+                )}
+            </MenuItem>
+            ))}
+        </MenuItems>
+        </Menu>
+    );
 };
 
 export default DropDown;
